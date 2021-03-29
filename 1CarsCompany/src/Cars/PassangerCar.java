@@ -1,6 +1,7 @@
+package Cars;
+
 public class PassangerCar extends Car{
-    public PassangerCar(String parameters){
-        super(parameters);
+    public PassangerCar(){
         code = 300;
         codeName = "пассажирский транспорт";
         paramName = "число пассажиров";

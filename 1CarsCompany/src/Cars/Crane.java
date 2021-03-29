@@ -1,6 +1,7 @@
+package Cars;
+
 public class Crane extends Car{
-    public Crane(String parameters){
-        super(parameters);
+    public Crane(){
         code = 400;
         codeName = "кран";
         paramName = "вес поднятых грузов";

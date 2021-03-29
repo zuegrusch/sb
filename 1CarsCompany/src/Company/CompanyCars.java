@@ -1,8 +1,12 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+package Company;
 
-public class CompanyCars {
+import Cars.Car;
+import Driver.Driver;
+
+import java.io.Serializable;
+import java.util.*;
+
+public class CompanyCars implements Serializable {
     //Расценки за топливо
     private Map<Integer, Double> fuelCost = new HashMap<>(){{
         put(100, 46.1);
@@ -14,7 +18,19 @@ public class CompanyCars {
     private ArrayList<Car> cars = new ArrayList<>();
 
     public void addCar(Car car){
-        cars.add(car);
+        boolean isUpdated = false;
+        //проверяем, есть ли в компании такой автомобиль
+        for(Car companyCar: cars){
+            if(car.equals(companyCar)){
+                companyCar.setMileage(companyCar.getMileage() + car.getMileage());
+                companyCar.setParamVal(companyCar.getParamVal() + car.getParamVal());
+                isUpdated = true;
+                break;
+            }
+        }
+        if(!isUpdated) {
+            cars.add(car);
+        }
     }
 
     public double getCarCost(Car car){
@@ -76,35 +92,66 @@ public class CompanyCars {
         System.out.println("Самая наименьшая стоимость расходов у автомобилей из категории " + minCostCategory);
     }
 
-    //Припоминаю, что было задание выполнить эту часть без ArrayList
     public void printCategoryCars(int code){
-        Car[] categoryCars = new Car[cars.size()];
-        for(int i = 0,j = 0; i < cars.size(); i++){
-            if(cars.get(i).getCode() == code){
-                categoryCars[j] = cars.get(i);
-                j++;
+        //Фильтруем по коду
+        ArrayList<Car> codeCars = new ArrayList<>();
+        for (Car car: cars){
+            if(car.getCode() == code){
+                codeCars.add(car);
             }
         }
-        categoryCars = sortCars(categoryCars);
-        for(int i = 0; i < categoryCars.length && categoryCars[i] != null; i++){
-            System.out.println(categoryCars[i]);
+        //Сортируем по пробегу
+        Collections.sort(codeCars, Comparator.comparingInt(Car::getMileage));
+        for(Car car: codeCars){
+            System.out.println(car);
         }
     }
 
-    public Car[] sortCars(Car[] cars){
-        for(int i = 1; i < cars.length; i++){
-            for(int j = i; j > 0 && cars[j] != null && cars[j-1] != null; j--){
-                Car temp = cars[j];
-                int miles = temp.getMileage();
-                if(cars[j-1].getMileage() > miles){
-                    cars[j] = cars[j-1];
-                    cars[j-1] = temp;
-                }
+    public void printDriversInfo(){
+        for (Car car: cars){
+            Driver driver = car.getDriver();
+            if(driver != null){
+                System.out.println(driver + ", закреплен за авто: " + car.getCodeName() +
+                        ", госномер " + car.getGov_number());
             }
         }
+    }
+
+    public ArrayList<Driver> getDrivers(){
+        ArrayList<Driver> drivers = new ArrayList<>();
+        for (Car car: cars) {
+            Driver driver = car.getDriver();
+            if (driver != null) {
+                drivers.add(driver);
+            }
+        }
+        return drivers;
+    }
+
+    public ArrayList<Car> getCars(){
         return cars;
     }
 
+    public void setDriver(Driver driver, Car car){
+        for (Car companyCar: cars){
+            if(companyCar.getDriver() != null && companyCar.getDriver().equals(driver) && !companyCar.equals(car)){
+                companyCar.setDriver(null);
+            }
+            if(companyCar.equals(car)){
+                companyCar.setDriver(driver);
+            }
+        }
+    }
 
+    public void removeDriver(Driver driver){
+        for (Car companyCar: cars) {
+            if (companyCar.getDriver() != null && companyCar.getDriver().equals(driver)) {
+                companyCar.setDriver(null);
+            }
+        }
+    }
 
+    public void removeCar(Car car){
+        cars.remove(car);
+    }
 }
