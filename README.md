@@ -1,6 +1,6 @@
 # sb Java Development Course
 
-Задания:
+Папки соответствуют заданиям:
 
 1CarsCompany: задание 1 - GSM
 
@@ -9,3 +9,5 @@
 Dictionary: Частотный словарь
 
 DuplicateRemover: Удаление дубликатов из коллекции
+
+MapChanger: Переворачивание ключей и значений в мапе
