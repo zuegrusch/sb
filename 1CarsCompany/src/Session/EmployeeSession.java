@@ -74,7 +74,6 @@ public class EmployeeSession {
                 }
                 case 9: {
                     closeSession();
-                    break;
                 }
                 default: {
                     System.out.println("Некорректное значение, введите номер операции из списка выше");
