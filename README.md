@@ -1,5 +1,4 @@
-# sb
-Java Development Course
+# sb Java Development Course
 
 Задания:
 
@@ -8,3 +7,5 @@ Java Development Course
 2Arrays: задание 1(задача 2) - массивы (не изменялся)
 
 Dictionary: Частотный словарь
+
+DuplicateRemover: Удаление дубликатов из коллекции
